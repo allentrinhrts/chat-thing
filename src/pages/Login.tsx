@@ -30,7 +30,7 @@ function Login() {
             <div className="mb-2 block">
               <Label htmlFor="email" value="Email" />
             </div>
-            <TextInput id="email" type="email" placeholder="example@landstar.com" required />
+            <TextInput id="email" type="email" placeholder="example@allentrinh.com" required />
           </div>
           <div>
             <div className="mb-2 block">

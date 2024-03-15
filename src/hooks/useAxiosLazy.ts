@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { FetchMethod } from '../types/FetchMethod'
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL as string
@@ -7,9 +7,9 @@ axios.defaults.baseURL = import.meta.env.VITE_API_URL as string
 console.log({ baseURL: axios.defaults.baseURL })
 
 type Query<T> = (endpoint: string, method?: FetchMethod, data?: object) => T
-type Response = { response: AxiosResponse | null; error: AxiosError | null; isLoading: boolean }
+type Response = [getData: () => void, { response: AxiosResponse | null; error: AxiosError | null; isLoading: boolean }]
 
-const useAxios: Query<Response> = (endpoint: string, method: FetchMethod = 'get', data: object = {}) => {
+const useAxiosLazy: Query<Response> = (endpoint: string, method: FetchMethod = 'get', data: object = {}) => {
   const [response, setResponse] = useState<Error | AxiosResponse | null>(null)
   const [error, setError] = useState<AxiosError | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -19,9 +19,9 @@ const useAxios: Query<Response> = (endpoint: string, method: FetchMethod = 'get'
     endpoint = `/${endpoint}`
   }
 
-  useEffect(() => {
-    setIsLoading(true)
+  const getData = () => {
     const fetchData = async () => {
+      setIsLoading(true)
       try {
         const response: AxiosResponse = await axios.request({
           url: `${import.meta.env.VITE_API_URL}${endpoint}`,
@@ -29,7 +29,7 @@ const useAxios: Query<Response> = (endpoint: string, method: FetchMethod = 'get'
           data,
         })
 
-        setResponse(response.data)
+        setResponse(response)
       } catch (err: unknown | AxiosError | Error) {
         setError(error)
       } finally {
@@ -38,9 +38,9 @@ const useAxios: Query<Response> = (endpoint: string, method: FetchMethod = 'get'
     }
 
     fetchData()
-  }, [])
+  }
 
-  return { response, error, isLoading } as Response
+  return [getData, { response, error, isLoading }] as Response
 }
 
-export default useAxios
+export default useAxiosLazy

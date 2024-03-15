@@ -7,6 +7,7 @@
 #chat-window {
   scrollbar-width: auto;
   scrollbar-color: #8b8ea2 #ffffff;
+  z-index: 1003;
 }
 
 /* Chrome, Edge, and Safari */
@@ -101,4 +102,20 @@
   to {
     opacity: 0;
   }
+}
+
+.animation-delay-0 {
+  animation-delay: 0ms;
+}
+
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+
+.animation-delay-1000 {
+  animation-delay: 1000ms;
+}
+
+#chat-input {
+  padding-right: 2.5rem;
 }

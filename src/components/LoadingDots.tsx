@@ -1,13 +1,13 @@
 function LoadingDots() {
   return (
     <>
-      <div className="animate-pulse delay-0">
+      <div className="animation-delay-0 animate-pulse">
         <Dot />
       </div>
-      <div className="animate-pulse delay-500">
+      <div className="animation-delay-500 animate-pulse">
         <Dot />
       </div>
-      <div className="animate-pulse delay-1000">
+      <div className="animation-delay-1000 animate-pulse">
         <Dot />
       </div>
     </>

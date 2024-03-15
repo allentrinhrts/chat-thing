@@ -10,7 +10,7 @@ const ChatFab = ({ isShown, onClick }: Props) => {
     <button
       id="chat-fab"
       onClick={onClick}
-      className={`absolute bottom-6 right-6 md:bottom-0 md:right-0 p-4 bg-teal-500 rounded-full shadow-lg text-white z-50 hover:bg-teal-600 transition duration-300 ${
+      className={`absolute bottom-6 right-6 md:bottom-0 md:right-0 p-4 bg-teal-500 rounded-full shadow-xl text-white z-50 hover:-translate-y-1 hover:bg-teal-600 transition duration-300 ${
         isShown ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0 pointer-events-none'
       }`}
     >

@@ -26,8 +26,9 @@ function ChatWindow({ isLoading, messages }: Props) {
             <ChatBubble variant={message?.user_id === 1 ? 'received' : 'sent'} message={message} />
           </li>
         ))}
+
         {isLoading && (
-          <li className="flex justify-start pt-8">
+          <li className="flex justify-start pt-4">
             <LoadingDots />
           </li>
         )}

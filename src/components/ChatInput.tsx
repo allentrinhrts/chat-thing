@@ -1,4 +1,4 @@
-import { Button, TextInput } from 'flowbite-react'
+import { TextInput } from 'flowbite-react'
 import { ArrowUpIcon } from '@heroicons/react/16/solid'
 import { useState } from 'react'
 import ChatMessage from '../types/ChatMessage'
@@ -37,12 +37,13 @@ function ChatInput({ isLoading, onSubmit }: Props) {
             className="grow"
             placeholder="Type a message"
             shadow
+            autoComplete="off"
             onChange={(e) => setMessage(e.target.value)}
           />
 
           <button
             type="submit"
-            className={`shadow-xl absolute right-2 bottom-1.5 rounded-full bg-teal-500 text-white p-2 hover:bg-teal-600 transition duration-300 ${
+            className={`shadow-xl absolute right-2 bottom-2 rounded-full bg-teal-500 text-white p-1.5 hover:bg-teal-600 transition duration-300 ${
               message.length === 0 || isLoading ? 'pointer-events-none opacity-0' : 'opacity-100'
             }`}
           >

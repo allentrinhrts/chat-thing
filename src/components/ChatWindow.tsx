@@ -21,7 +21,7 @@ function ChatWindow({ isLoading, messages }: Props) {
     <div
       id="chat-window"
       ref={chatWindow}
-      className="grow bg-gray-50 mb-2 px-4 pt-8 pb-2 rounded-lg overflow-y-auto shadow border"
+      className="grow mb-2 px-4 pt-8 pb-2 rounded-lg overflow-y-auto shadow border"
     >
       <p className="text-xs tracking-wider font-semibold mb-4 uppercase text-center text-slate-500">Start of chat</p>
       <ul className="w-[320px]">

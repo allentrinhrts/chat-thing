@@ -3,6 +3,8 @@ import ChatInput from './ChatInput'
 import ChatWindow from './ChatWindow'
 import ChatMessage from '../types/ChatMessage'
 import useAxios from '../hooks/useAxios'
+import ChatFab from './ChatFab'
+import ChatHeader from './ChatHeader'
 
 const initialMessageState = {
   id: new Date().toISOString(),
@@ -15,6 +17,7 @@ const initialMessageState = {
 function Chat() {
   const [message, setMessage] = useState<ChatMessage | null>(null)
   const [messages, setMessages] = useState<ChatMessage[]>([{ ...initialMessageState }])
+  const [isChatOpen, setIsChatOpen] = useState<boolean>(false)
 
   const [getData, { response, error, isLoading }] = useAxios(`/completions?prompt=${message?.message}`)
 
@@ -42,14 +45,27 @@ function Chat() {
     setMessage(message)
   }
 
+  function handleToggleChat() {
+    setIsChatOpen((prev) => !prev)
+  }
+
   if (error) {
-    return error
+    return <p>error</p>
   }
 
   return (
-    <div className="flex flex-col w-full h-full">
-      <ChatWindow isLoading={isLoading && message !== null} messages={messages} />
-      <ChatInput isLoading={isLoading && message !== null} onSubmit={handleSubmit} />
+    <div id="chat-wrapper" className="flex flex-col w-full h-full">
+      <div
+        id="chat"
+        className={`flex flex-col w-full h-full relative z-40 transition duration-300 ${
+          isChatOpen ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0 pointer-events-none'
+        }`}
+      >
+        <ChatHeader onClose={handleToggleChat} />
+        <ChatWindow isLoading={isLoading && message !== null} messages={messages} />
+        <ChatInput isLoading={isLoading && message !== null} onSubmit={handleSubmit} />
+      </div>
+      <ChatFab isShown={!isChatOpen} onClick={handleToggleChat} />
     </div>
   )
 }

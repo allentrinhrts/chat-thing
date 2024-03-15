@@ -1,5 +1,5 @@
 import { Button, TextInput } from 'flowbite-react'
-import { PaperAirplaneIcon } from '@heroicons/react/16/solid'
+import { ArrowUpIcon } from '@heroicons/react/16/solid'
 import { useState } from 'react'
 import ChatMessage from '../types/ChatMessage'
 
@@ -29,21 +29,26 @@ function ChatInput({ isLoading, onSubmit }: Props) {
 
   return (
     <>
-      <form className="relative" onSubmit={handleSubmit}>
-        <div className="flex gap-2">
+      <form id="chat-form" className="relative" onSubmit={handleSubmit}>
+        <div className="flex gap-2 relative">
           <TextInput
+            id="chat-input"
             value={message}
             className="grow"
             placeholder="Type a message"
             shadow
             onChange={(e) => setMessage(e.target.value)}
           />
-          {!isLoading && message.length !== 0 && (
-            <Button type="submit">
-              Send
-              <PaperAirplaneIcon className="h-4 w-4 ml-2" />
-            </Button>
-          )}
+
+          <button
+            type="submit"
+            className={`shadow-xl absolute right-2 bottom-1.5 rounded-full bg-teal-500 text-white p-2 hover:bg-teal-600 transition duration-300 ${
+              message.length === 0 || isLoading ? 'pointer-events-none opacity-0' : 'opacity-100'
+            }`}
+          >
+            <div className="sr-only">Send</div>
+            <ArrowUpIcon className="w-4 h-4" />
+          </button>
         </div>
       </form>
     </>

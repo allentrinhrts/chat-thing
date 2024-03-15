@@ -14,7 +14,7 @@ function Authenticated() {
   // }
 
   return (
-    <div className="container mx-auto flex justify-center items-center h-full">
+    <div className="flex justify-center items-center h-full">
       <Outlet />
     </div>
   )

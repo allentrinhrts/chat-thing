@@ -25,12 +25,21 @@
   border: 3px solid #ffffff;
 }
 
-.chatty-chat-chat {
+#chat-root {
   position: fixed;
-  right: 2rem;
-  bottom: 2rem;
+  right: 0;
+  bottom: 0;
   height: 100vh;
-  max-height: 80vh;
+  width: 100vw;
+}
+
+@media (min-width: 768px) {
+  #chat-root {
+    max-height: 80vh;
+    width: auto;
+    margin-right: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
 }
 
 .highlighted-element {

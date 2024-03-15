@@ -1,6 +1,6 @@
 import { TextInput } from 'flowbite-react'
 import { ArrowUpIcon } from '@heroicons/react/16/solid'
-import { useState } from 'react'
+import { useState, forwardRef } from 'react'
 import ChatMessage from '../types/ChatMessage'
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
   onSubmit: (message: ChatMessage) => void
 }
 
-function ChatInput({ isLoading, onSubmit }: Props) {
+const ChatInput = forwardRef(({ isLoading, onSubmit }: Props, ref: React.ForwardedRef<HTMLInputElement>) => {
   const [message, setMessage] = useState<string>('')
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -29,7 +29,7 @@ function ChatInput({ isLoading, onSubmit }: Props) {
 
   return (
     <>
-      <form id="chat-form" className="relative" onSubmit={handleSubmit}>
+      <form id="chat-form" className="relative p-2" onSubmit={handleSubmit}>
         <div className="flex gap-2 relative">
           <TextInput
             id="chat-input"
@@ -39,6 +39,7 @@ function ChatInput({ isLoading, onSubmit }: Props) {
             shadow
             autoComplete="off"
             onChange={(e) => setMessage(e.target.value)}
+            ref={ref}
           />
 
           <button
@@ -54,6 +55,6 @@ function ChatInput({ isLoading, onSubmit }: Props) {
       </form>
     </>
   )
-}
+})
 
 export default ChatInput

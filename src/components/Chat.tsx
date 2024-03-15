@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ChatInput from './ChatInput'
 import ChatWindow from './ChatWindow'
 import ChatMessage from '../types/ChatMessage'
@@ -19,9 +19,24 @@ function Chat() {
   const [message, setMessage] = useState<ChatMessage | null>(null)
   const [messages, setMessages] = useState<ChatMessage[]>([{ ...initialMessageState }])
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false)
+  const inputRef = useRef<React.Ref<HTMLInputElement>>(null)
 
   const [getData, { response, error, isLoading }] = useAxios(`/completions?prompt=${message?.message}`)
   const highlightElement = useHighlighter()
+
+  useEffect(() => {
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        if (isChatOpen && document.activeElement === inputRef.current) {
+          setIsChatOpen(false)
+        }
+      }
+    })
+
+    return () => {
+      window.removeEventListener('keydown', () => {})
+    }
+  })
 
   useEffect(() => {
     if (!response) {
@@ -40,8 +55,7 @@ function Chat() {
     }
 
     setMessages((prevMessages) => [...prevMessages, message])
-    // getData()
-    highlightElement(message.message)
+    getData()
   }, [message])
 
   function handleSubmit(message: ChatMessage) {
@@ -49,7 +63,14 @@ function Chat() {
   }
 
   function handleToggleChat() {
-    setIsChatOpen((prev) => !prev)
+    // Sets focus to the input when the chat is opened
+    setIsChatOpen((prev) => {
+      if (!prev) {
+        inputRef.current!.focus()
+      }
+
+      return !prev
+    })
   }
 
   if (error) {
@@ -60,13 +81,13 @@ function Chat() {
     <div id="chat-wrapper" className="flex flex-col w-full h-full">
       <div
         id="chat"
-        className={`flex flex-col w-full h-full relative z-40 transition duration-300 ${
+        className={`flex flex-col w-full h-full relative z-40 transition rounded-lg duration-300 shadow bg-white ${
           isChatOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0 pointer-events-none'
         }`}
       >
         <ChatHeader onClose={handleToggleChat} />
         <ChatWindow isLoading={isLoading && message !== null} messages={messages} />
-        <ChatInput isLoading={isLoading && message !== null} onSubmit={handleSubmit} />
+        <ChatInput isLoading={isLoading && message !== null} onSubmit={handleSubmit} ref={inputRef} />
       </div>
       <ChatFab isShown={!isChatOpen} onClick={handleToggleChat} />
     </div>
